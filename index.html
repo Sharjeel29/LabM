@@ -7,12 +7,29 @@
     <title>Space Monk</title>
     <link rel="icon" href="monk.png">
 
+    <style>
+        
+        #registrationForm 
+        {
+            margin-left: 20px;
+        }
+       
+    </style>
+    
+    <style>
+        
+        #loginForm 
+        {
+            margin-left: 20px;
+        }
+       
+    </style>
 </head>
 
 <body>
     <img src="air.png" alt="air" width="150" height="150"
-        style="margin-left: 600px; margin-top: 1px;border-radius: 50%;">
-    <h1 style="font-family: 'Arial', sans-serif;  color:seagreen;margin-left: 560px; margin-top: 0px;">Breathe Easy</h1>
+        style="margin-left: 690px; margin-top: 1px;border-radius: 50%;">
+    <h1 style="font-family: 'Arial', sans-serif;  color:seagreen;margin-left: 590px; margin-top: 0px;"> AIR QUALITY INDEX </h1>
 
 
 
@@ -23,14 +40,18 @@
 
 
         <div style="display: flex; flex-direction: column;">
-            <div style="background-color: teal; height: 660px; width: 480px;">
-                <h2>Registration </h2>
-                <form>
+            <div style="background-color: teal; height: 660px; width: 480px;margin-left: 140px;overflow-y: auto;"">
+                <h2 style="text-align: center; margin-top: 0; margin-bottom: 20px;">Registration</h2>
+
+               <form id="registrationForm" action="process.php" method="POST" onsubmit="return validateForm()">
+
                     <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username"><br>
+                    <input type="text" id="username" name="username"><br><br>
+                    <div id="usernameError" style="color: red;"></div>
 
                     <label for="birthday">Date of Birth:</label><br>
                     <input type="date" id="dob" name="dob"><br><br>
+                    <div id="dobError" style="color: red;"></div>
 
 
                     <label for="gender">Gender:</label><br>
@@ -38,6 +59,7 @@
                     <label for="male">Male</label><br>
                     <input type="radio" id="female" name="gender" value="female">
                     <label for="female">Female</label><br><br>
+                    <div id="genderError" style="color: red;"></div>
 
                     <label for="country">Select your country:</label><br>
                     <select name="country" id="country">
@@ -295,31 +317,34 @@
                         <option value="ZM">Zambia</option>
                         <option value="ZW">Zimbabwe</option>
                     </select><br><br>
+                    <div id="countryError" style="color: red;"></div>
 
                     <label for="fname"> Your opinion about AQI:</label><br>
-                    <input type="text" id="fname" name="fname"><br><br>
+                    <textarea type="textarea" id="fname" name="fname"rows="2" cols="40"></textarea><br><br>
 
                     <label for="email">Enter your email:</label><br>
                     <input type="email" id="email" name="email"><br><br>
+                    <div id="emailError" style="color: red;"></div>
 
                     <label for="password">Password:</label><br>
                     <input type="password" id="password" name="password"><br><br>
+                    <div id="passwordError" style="color: red;"></div>
 
                     <label for="confirm_password">Confirm Password:</label><br>
                     <input type="password" id="confirm_password" name="confirm_password"><br><br>
+                    <div id="confirmPasswordError" style="color: red;"></div>
 
                     <input type="checkbox" name="newsletter" id="newsletter">
                     <a href="https://www.termsfeed.com/blog/sample-terms-and-conditions-template/#What_Are_Terms_And_Conditions_Agreements" target="_blank">Terms and Conditions</a>
-                    
-                    <br>
+                    <div id="termsError" style="color: red;"></div>
+
 
                     <label for="bgColor">Choose Background Color:</label>
-                    <input type="color" id="bgColor"> <br><br>
+                    <input type="color" id="bgColor"> <br>
 
 
-                    <!--    <button type="button" id="submitButton">Submit</button> -->
-                    <!-- <button type="button" id="submitButton" onclick="validate()">Submit</button> -->
-                    <input type="button" name="submit" value="Register" onclick="return validateForm()">
+                    <input type="submit" name="submit" value="Register">
+
 
                     <p id="dataN"
                         style="color:rgba(255, 0, 0, 0.634) ;margin-top: -530px; margin-bottom: 10px ;margin-left: 180px;">
@@ -328,14 +353,35 @@
                         style="color:rgba(255, 0, 0, 0.56) ;margin-top: -510px; margin-bottom: 10px ;margin-left: 180px;">
                     </p>
 
+
+
             </div>
             </form>
 
-            <div style="background-color: lightseagreen; height: 480px; width: 480px;"></div>
+            <div style="background-color: lightseagreen; height: 480px; width: 480px;margin-left: 140px;">
+                <h2 style="text-align: center; margin-top: 0; margin-bottom: 20px;">Log In</h2>
+
+                <form id="loginForm">
+                <label for="username2">Username:</label><br>
+                <input type="text" id="username2" name="username2"><br><br>
+
+                <label for="password2">Password:</label><br>
+                <input type="password" id="password2" name="password2"><br><br>
+                <input type="button" name="submit2" value="login" onclick="return validateLogin()">
+
+        </form>
+
+
+            </div>
+           
+        
         </div>
 
-
-        <div style="background-color :turquoise   ; height :1140px; width:720px;">
+    
+    
+    
+        <div style="background-color :turquoise   ; height :1140px; width:720px;margin-left: 0px;">
+            
         </div>
 
 
@@ -347,17 +393,27 @@
         function validateForm() {
             let valid = true;
     
+    document.getElementById('usernameError').innerText = '';
+    document.getElementById('emailError').innerText = '';
+    document.getElementById('passwordError').innerText = '';
+    document.getElementById('confirmPasswordError').innerText = '';
+    document.getElementById('dobError').innerText = '';
+    document.getElementById('countryError').innerText = '';
+    document.getElementById('genderError').innerText = '';
+    document.getElementById('termsError').innerText = '';
+
             let username = document.getElementById('username');
-            let usernamePattern = /^[a-zA-Z.\-\s]+$/;
+            let usernamePattern = /^[a-zA-Z\-\s]+$/;
             if (!usernamePattern.test(username.value.trim())) {
-                alert("Invalid Username! Only letters, space, dot and dash allowed.");
+                document.getElementById('usernameError').innerText = "Only letters, space, and dash allowed.";
+
                 valid = false;
             }
     
             let email = document.getElementById('email');
             let emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail|yahoo|hotmail)\.com$/;
             if (!emailPattern.test(email.value.trim())) {
-                alert("Invalid Email! Only Gmail, Yahoo, Hotmail allowed.");
+                document.getElementById('emailError').innerText = "Invalid Email! Only Gmail, Yahoo, Hotmail allowed.";
                 valid = false;
             }
     
@@ -365,10 +421,11 @@
             let confirmPassword = document.getElementById('confirm_password').value;
             let passwordPattern = /^[a-zA-Z0-9]{8,}$/;
             if (!passwordPattern.test(password)) {
-                alert("Invalid Password! Must be alphanumeric and 8+ characters.");
+                document.getElementById('passwordError').innerText = "Password must be alphanumeric and 8+ characters.";
                 valid = false;
             } else if (password !== confirmPassword) {
-                alert("Passwords do not match!");
+                document.getElementById('confirmPasswordError').innerText = "Passwords do not match.";
+
                 valid = false;
             }
     
@@ -382,36 +439,39 @@
                     age--;
                 }
                 if (age < 18) {
-                    alert("You must be at least 18 years old.");
+                    document.getElementById('dobError').innerText = "You must be at least 18 years old.";
                     valid = false;
                 }
             } else {
-                alert("Please select your Date of Birth.");
+                document.getElementById('dobError').innerText = "Please select your Date of Birth.";
+
                 valid = false;
             }
     
             let country = document.getElementById('country').value;
             if (country === '') {
-                alert("Please select a country.");
+                document.getElementById('countryError').innerText = "Please select a country.";
                 valid = false;
             }
 
 
             let gender = document.querySelector('input[name="gender"]:checked');
         if (!gender) {
-            alert("Please select your gender.");
+            document.getElementById('genderError').innerText = "Please select your gender.";
             valid = false;
         }
 
 
             let termsCheckbox = document.getElementById('newsletter');
         if (!termsCheckbox.checked) {
-            alert("You must agree to the Terms and Conditions.");
+            document.getElementById('termsError').innerText = "You must agree to the Terms and Conditions.";
             valid = false;
         }
     
             if (valid) {
                 alert('Registration done');
+                document.getElementById('registrationForm').reset();
+
             }
     
             return valid;
